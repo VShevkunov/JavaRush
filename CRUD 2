@@ -1,1 +1,104 @@
+package com.javarush.task.task17.task1711;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+/* 
+CRUD 2
+*/
+
+public class Solution {
+    public static volatile List<Person> allPeople = new ArrayList<Person>();
+    private static volatile Person p=null;
+
+    static {
+        allPeople.add(Person.createMale("Иванов Иван", new Date()));  //сегодня родился    id=0
+        allPeople.add(Person.createMale("Петров Петр", new Date()));  //сегодня родился    id=1
+    }
+
+    public static void create(String[] args) throws ParseException {
+        String sex, name, bd;
+        for (int i = 1; i < args.length ; i+=3) {
+            name = args[i];
+            sex = args[i+1];
+            bd = args[i+2];
+
+            Date d = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(bd);
+            switch (sex){
+                case "м":
+                    p=Person.createMale(name, d);
+                    break;
+                case "ж":
+                    p=Person.createFemale(name, d);
+                    break;
+            }
+            allPeople.add(p);
+            System.out.println(allPeople.indexOf(p));
+
+        }
+
+    }
+
+    public static void update(String[] args) throws ParseException {
+        String sex, name, bd, id;
+        for (int i = 1; i < args.length ; i+=4) {
+            id = args[i];
+            name = args[i+1];
+            sex = args[i+2];
+            bd = args[i+3];
+            switch (sex){
+                case "м":
+                    p=Person.createMale(name, new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(bd));
+                    break;
+                case "ж":
+                    p=Person.createFemale(name, new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(bd));
+                    break;
+            }
+            allPeople.set(Integer.parseInt(id), p);
+        }
+    }
+
+    public static void delete(String[] args){
+        for (int i = 1; i < args.length; i++) {
+            allPeople.get(Integer.parseInt(args[i])).setName(null);
+            allPeople.get(Integer.parseInt(args[i])).setBirthDate(null);
+            allPeople.get(Integer.parseInt(args[i])).setSex(null);
+
+        }
+
+    }
+
+    public static void info (String[] args) {
+        for (int i = 1; i < args.length; i++) {
+            p=allPeople.get(Integer.parseInt(args[i]));
+            System.out.print(p.getName() + " ");
+            System.out.print(p.getSex()==Sex.MALE ? "м " : "ж ");
+            System.out.println(new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH).format(p.getBirthDate()));
+        }
+    }
+
+    public static void main(String[] args) throws ParseException {
+
+        if (args.length!=0){
+            switch (args[0]){
+                case "-c":
+                    synchronized (allPeople) {create(args);}
+                    break;
+                case "-u":
+                    synchronized (allPeople) {update(args);}
+                    break;
+                case "-d":
+                    synchronized (allPeople) {delete(args);}
+                    break;
+                case "-i":
+                    synchronized (allPeople) {info(args);}
+                    break;
+            }
+        }
+
+    }
+}
