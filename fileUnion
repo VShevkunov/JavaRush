@@ -1,0 +1,36 @@
+package com.javarush.task.task18.task1819;
+
+/* 
+Объединение файлов
+Считать с консоли 2 имени файла.
+В начало первого файла записать содержимое второго файла так, чтобы получилось объединение файлов.
+Закрыть потоки.
+*/
+
+import java.io.*;
+
+        public class Solution {
+            public static void main(String[] args) throws IOException {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String file1 = reader.readLine();
+                String file2 = reader.readLine();
+
+                BufferedInputStream iBuffer1 = new BufferedInputStream(new FileInputStream(file1));
+
+                byte[] file1Bytes = new byte[iBuffer1.available()];
+                iBuffer1.read(file1Bytes);
+                iBuffer1.close();
+
+                BufferedInputStream iBuffer2 = new BufferedInputStream(new FileInputStream(file2));
+                BufferedOutputStream oBuffer1 = new BufferedOutputStream(new FileOutputStream(file1,false));
+
+                while (iBuffer2.available()!=0){
+                    int x = iBuffer2.read();
+                    oBuffer1.write(x);
+                }
+                iBuffer2.close();
+
+                oBuffer1.write(file1Bytes);
+                oBuffer1.close();
+            }
+}
