@@ -1,0 +1,57 @@
+package com.javarush.task.task18.task1821;
+
+/* 
+Встречаемость символов
+Программа запускается с одним параметром - именем файла, который содержит английский текст.
+Посчитать частоту встречания каждого символа.
+Отсортировать результат по возрастанию кода ASCII (почитать в инете).
+
+Пример:
+','=44, 's'=115, 't'=116.
+
+Вывести на консоль отсортированный результат:
+[символ1] частота1
+[символ2] частота2
+Закрыть потоки.
+
+Пример вывода:
+, 19
+- 7
+f 361
+*/
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+
+        String file = args[0];
+
+        HashMap<Integer, Integer> tableStat = new HashMap<>();
+        FileInputStream fis = new FileInputStream(file);
+
+        int b;
+
+        while (fis.available()!=0){
+            if (tableStat.containsKey(b=fis.read())){
+                tableStat.replace(b, tableStat.get(b)+1);
+            }else{
+                tableStat.put(b, 1);
+            }
+        }
+
+        ArrayList<Integer> symbols = new ArrayList<>(tableStat.keySet());
+        Collections.sort(symbols);
+
+        for (int i = 0; i < symbols.size() ; i++) {
+            int symbol = symbols.get(i);
+            char s = (char)symbol;
+            System.out.println(s + " " + tableStat.get(symbol));
+        }
+        fis.close();
+
+
+    }
+}
