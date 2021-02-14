@@ -1,0 +1,269 @@
+
+<html><head><meta http-equiv=X-UA-Compatible content="IE=11"><meta name=google content=notranslate><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>EPC Web components</title></head><body style="margin: 0;background-color: #ccc;"><div id=getProductOfferCfg style="position: fixed;
+                            top: 4px;
+                            right: 8px;
+                            background-color: #e0e0e0;
+                            color: black;
+                            z-index: 50;
+                            width: 100px;
+                            box-sizing: border-box;
+                            padding: 5px;
+                            cursor: pointer;
+                            text-align: center;
+                            font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+                            font-size: 13px;
+                            display: block;" title="Продуктовая конфигурация">webPOC</div><div id=getProductOfferCfgAsync style="position: fixed;
+                            top: 4px;
+                            right: 121px;
+                            background-color: #e0e0e0;
+                            color: black;
+                            z-index: 50;
+                            width: 100px;
+                            box-sizing: border-box;
+                            padding: 5px;
+                            cursor: pointer;
+                            text-align: center;
+                            font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+                            font-size: 13px;
+                            display: block;" title="Продуктовая конфигурация">POC v1.0</div><div id=getProductOfferCfgAsync2 style="position: fixed;
+                            top: 4px;
+                            right: 235px;
+                            background-color: #e0e0e0;
+                            color: black;
+                            z-index: 50;
+                            width: 100px;
+                            box-sizing: border-box;
+                            padding: 5px;
+                            cursor: pointer;
+                            text-align: center;
+                            font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+                            font-size: 13px;
+                            display: block;" title="Продуктовая конфигурация">POC v2.0</div><div id=web-component-1></div>
+							<script>window.RT_WIDGET_CONFIG = {
+      'web-component-1': {
+  "ready": true,
+  "viewMode": "productOffers",
+  "themeProperty": "default",
+  "addDisplayMode": {
+    "enableSettings": false,
+    "defaultOfferName": "comm",
+    "defaultOfferDescription": "comm",
+    "displayColumnId": false
+  },
+  "showWithNDSOnly": null,
+  "hideRequiredPriceOffers": [],
+  "enableConfig": true,
+  "editingProduct": "exact",
+  "editingSegment": "exact",
+  "editingComponent": [],
+  "enableTransferCfg": null,
+  "onlyPackage": false,
+  "restrictSearch": true,
+  "mode": "new",
+  "productOfferCfg": [],
+  "productOffers": [  ],
+  "clientProperties": [],
+  "clientProfile": [],
+  "differencePOC": false,
+  "techAvInfo": [],
+  "addressOrpon": true,
+ "techAvInfo": [
+  {
+    "productType": "SHPD",
+    "status": true,
+    "techAv": [
+      {
+        "technology": "2",
+        "maxSpeed": 100
+      }
+    ]
+  }
+],
+"addressOrpon": true,
+"address": {
+  "id": "5202108",
+  "name": "ЛИПЕЦК"
+},
+"properties": [
+  {
+    "codeName": "PRODUCTS",
+    "value": [
+      "SALE_EQUIPMENT"
+    ]
+  },
+    {
+      "codeName": "CLIENT_SEGMENTS",
+      "value": [
+        "3"
+      ]
+    },
+    {
+      "codeName": "DISTRIBUTION_CHANNEL",
+      "value": [
+        "B2C",
+        "48",
+        "64",
+        "63",
+        "62",
+        "61",
+        "45",
+        "51",
+        "52",
+        "53",
+        "54",
+        "46",
+        "56",
+        "55",
+        "57",
+        "50",
+        "67",
+        "68",
+        "23",
+        "47",
+        "60",
+        "58",
+        "59",
+        "49",
+        "66",
+        "65"
+      ]
+    }
+  ],
+  "bindedProperties": [],
+  "presetProperties": [
+    {
+      "codeName": "FIRST_TIME?",
+      "value": true,
+      "exeption": []
+    }
+  ],
+  "duplicate": {
+    "check": true,
+    "blockingProductSpecifications": [
+      {
+        "id": 3146740761
+      },
+      {
+        "id": 3146686761
+      }
+    ]
+  }
+}
+}
+</script>
+<script>
+   window.RT_WIDGET_CONFIG['web-component-1'].ready(function () {
+        let component = window.RT_WIDGET_CONFIG['web-component-1'];
+        component.outerFuncs = [        
+			{
+                id: 'VATSchooseSmInt',
+                handler: function (maxCount, params, resolve, reject) {
+                    var num = prompt("Введите номер (пример 9123456789):", '9040875252'); //Выберите номера на платформе и введите сюда
+                    var re = /^\d{10}$/;
+                    var valid = re.test(num);
+                    if (valid) {
+                        let numarr = [num];
+                        let response = numarr.map(function (num) {
+                            return {
+                                "action": "add",
+                                "instId": "",
+                                "properties":
+                                    [
+                                        {
+                                            "codeName": "ACTIVATION_NUMBER",
+                                            "values":
+                                                [
+                                                    {
+                                                        "value": num
+                                                    }
+                                                ]
+                                        }
+                                    ]
+                            }
+                        });
+                        resolve(response);
+                    } else {
+                        alert('Номер указан некорректно');
+                    }
+                }
+            }
+        ];
+		});
+    var createXHRRequest = function (method, url, param, token, resolve, reject, timeout) {
+        resolve = resolve || function () { };
+        reject = reject || function () { };
+        timeout = timeout || function () { };
+        var xhr = new XMLHttpRequest();
+        xhr.timeout = 5000;
+        xhr.ontimeout = function () {
+            timeout();
+        }
+        if (method === 'GET' && param) {
+            url += param;
+        }
+        xhr.open(method, url);
+        if (token) {
+            xhr.setRequestHeader('Authorization', token);
+        }
+        if (method === 'POST') {
+            xhr.setRequestHeader('Content-Type', 'application/json');
+        }
+        xhr.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+                resolve(xhr.response);
+            } else {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText
+                });
+            }
+        };
+        xhr.onerror = function () {
+            reject({
+                status: this.status,
+                statusText: xhr.statusText
+            });
+        };
+        if (method === 'POST') {
+            xhr.send(param);
+        } else {
+            xhr.send();
+        }
+    };
+
+ 
+</script>
+<script>document.getElementById('getProductOfferCfg').addEventListener('click', function (event) {
+      if (window.RT_WIDGET_CONFIG['web-component-1'].outputData.status) {
+        alert(window.RT_WIDGET_CONFIG['web-component-1'].outputData.getProductOfferCfg())
+        console.log(window.RT_WIDGET_CONFIG['web-component-1'].outputData.getProductOfferCfg())
+      } else {
+        console.log('компонент не готов')
+      }
+    })
+
+    var addPOCEventListener = function (POCVersion) {
+      if (!POCVersion) {
+        POCVersion = '1.0'
+      }
+
+      if (window.RT_WIDGET_CONFIG['web-component-1'].outputData.status) {
+        window.RT_WIDGET_CONFIG['web-component-1'].outputData.getProductOfferCfgAsync(POCVersion).then(function (POC) {
+          console.log(POC)
+        })
+        .catch(function (error) {
+          console.error(error)
+        })
+      } else {
+        console.log('компонент не готов')
+      }
+    }
+
+    document.getElementById('getProductOfferCfgAsync').addEventListener('click', function (event) {
+      addPOCEventListener()
+    })
+
+    document.getElementById('getProductOfferCfgAsync2').addEventListener('click', function (event) {
+      addPOCEventListener('2.0')
+    })</script>
+	<script type=text/javascript src=https://apigw-pfe.south.rt.ru/apiman-gateway/epc/widget-client-stage-pfe/1.8.0/static/js/app.js></script></body></html>
